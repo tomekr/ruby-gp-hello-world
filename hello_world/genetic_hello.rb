@@ -20,10 +20,10 @@ def init_population
 end
 
 def generate_random_word
-  (1..GA_TARGET.size).map { (rand(90) + 32).chr }.join
+  GA_TARGET.size.times.map { (rand(90) + 32).chr }.join
 end
 
-def calc_fitness
+def calculate_fitness
   @population.each do |citizen|
     citizen.fitness = citizen.str.chars.each_with_index.map do |char, index|
       (char.ord - GA_TARGET[index].ord).abs
@@ -36,7 +36,7 @@ def print_best(best)
 end
 
 def mate
-  elitism_size   = POPULATION_SIZE * ELITISM_RATE
+  elitism_size = POPULATION_SIZE * ELITISM_RATE
 
   elitism elitism_size
 
@@ -48,7 +48,6 @@ def mate
     dad             = @population[rand(POPULATION_SIZE)]
 
     new_citizen.str = mom.str[0..splice_position] + dad.str[(splice_position+1)..dad.str.size]
-    puts "SIZE NOT EQUAL!! #{ new_citizen.str.size }" if new_citizen.str.size != GA_TARGET.size
 
     mutate new_citizen if rand < MUTATION_RATE
 
@@ -71,8 +70,8 @@ end
 
 init_population
 
-(0..MAX_ITERATIONS).each do
-  calc_fitness
+MAX_ITERATIONS.times do
+  calculate_fitness
   @population.sort_by! {|citizen| citizen.fitness }
   print_best @population.first
 
