@@ -14,9 +14,6 @@ Struct.new "GAStruct", :str, :fitness
 def init_population
   @population  = POPULATION_SIZE.times.map { Struct::GAStruct.new generate_random_word, 0 }
   @buffer      = []
-
-  @population.each do |citizen|
-  end
 end
 
 def generate_random_word
